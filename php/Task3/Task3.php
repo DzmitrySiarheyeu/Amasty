@@ -20,8 +20,13 @@ if (!empty($_POST['bills']) && !empty($_POST['sum'])) {
             echo json_encode(['result' => 'error', 'error' => 'Введите корректный номинал купюр']);
             die();
         }
-        $resultArr[intval($bill)] = floor($sum / $bill);
-        $sum -= $resultArr[intval($bill)] * $bill;
+        if($sum - $bill < $billsArr[count($billsArr)-1] && $sum - $bill != 0){
+			$resultArr[intval($bill)] = 0;
+		
+		}else{
+			$resultArr[intval($bill)] = floor($sum / $bill);
+			$sum -= $resultArr[intval($bill)] * $bill;
+		}
     }
     if ($sum != 0) {
         $min = $_POST['sum'] - $sum;
